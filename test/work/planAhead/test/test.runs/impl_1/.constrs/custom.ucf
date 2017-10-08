@@ -1,0 +1,13 @@
+NET "cba[0]" LOC = P35;
+NET "cba[0]" IOSTANDARD = LVTTL;
+NET "cba[1]" LOC = P41;
+NET "cba[1]" IOSTANDARD = LVTTL;
+NET "cba[2]" LOC = P51;
+NET "cba[2]" IOSTANDARD = LVTTL;
+
+NET "cs[0]" LOC = P124;
+NET "cs[0]" IOSTANDARD = LVTTL;
+NET "cs[0]" PULLDOWN;
+NET "cs[1]" LOC = P127;
+NET "cs[1]" IOSTANDARD = LVTTL;
+NET "cs[1]" PULLDOWN;

@@ -1,0 +1,87 @@
+module mojo_top (
+    input clk,              // 50MHz clock
+    input rst_n,            // reset button (active low)
+    //output led [8],         // 8 user controllable LEDs
+    input cclk,             // configuration clock, AVR ready when high
+    output spi_miso,        // AVR SPI MISO
+    input spi_ss,           // AVR SPI Slave Select
+    input spi_mosi,         // AVR SPI MOSI
+    input spi_sck,          // AVR SPI Clock
+    output spi_channel [4], // AVR general purpose pins (used by default to select ADC channel)
+    input avr_tx,           // AVR TX (FPGA RX)
+    output avr_rx,          // AVR RX (FPGA TX)
+    input avr_rx_busy,      // AVR RX buffer full
+    output io_led [3][8],   // LEDs on IO Shield
+    //output io_seg [8],      // 7-segment LEDs on IO Shield
+    //output io_sel [4],      // Digit select on IO Shield
+    input io_button [5],    // 5 buttons on IO Shield
+    input io_dip [3][8],    // DIP switches on IO Shield
+    input cs[2],            // 0-s 1-cout
+    output cba[3]           // 0-a 1-b 2-c
+  ) {
+  
+  sig rst;                  // reset signal
+  
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+       
+    .rst(rst) {
+      counter ctr (#SIZE(3), #DIV(26));
+    }
+  }
+  
+  always {
+    reset_cond.in = ~rst_n;   // input raw inverted reset signal
+    rst = reset_cond.out;     // conditioned reset
+    
+    io_led = io_dip;   // connects unused DIP switches to the LEDs
+    
+    cba = ctr.value;            //assigns carry-in, b and a to 3 bit counter
+    io_led[2][7:5] = ctr.value; //assigns 3 leds to represent carry-in, b and a
+    io_led[0][1:0] = cs;        //assigns 2 leds to receive carry-out and sum
+    
+    //checking for any discrepancy in the adder's output
+    //in an error case, 8 leds at the center will light up
+    case (ctr.value){
+      3b000:
+        if(cs!=2b00){
+          io_led[1]=8hFF;
+        }
+      3b001:
+        if(cs!=2b01){
+          io_led[1]=8hFF;
+        }
+      3b010:
+        if(cs!=2b01){
+          io_led[1]=8hFF;
+        }
+      3b011:
+        if(cs!=2b10){
+          io_led[1]=8hFF;
+        }
+      3b100:
+        if(cs!=2b01){
+          io_led[1]=8hFF;
+        }
+      3b101:
+        if(cs!=2b10){
+          io_led[1]=8hFF;
+        }
+      3b110:
+        if(cs!=2b10){
+          io_led[1]=8hFF;
+        }
+      3b111:
+        if(cs!=2b11){
+          io_led[1]=8hFF;
+        }
+    }
+    
+    spi_miso = bz;            // not using SPI
+    spi_channel = bzzzz;      // not using flags
+    avr_rx = bz;              // not using serial port
+    
+  }    
+}
