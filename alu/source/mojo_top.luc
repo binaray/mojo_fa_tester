@@ -26,8 +26,6 @@ module mojo_top (
     reset_conditioner reset_cond;
     
     .rst(rst) {
-      cpu cpu;        // our snazzy CPU
-      dff led_reg[8]; // storage for LED value
       alu alu;
     }
   }
@@ -40,24 +38,11 @@ module mojo_top (
     spi_channel = bzzzz;      // not using flags
     avr_rx = bz;              // not using serial port
     
-    cpu.din = 8hxx;           // default to don't care
+    alu.alufn=io_dip[2][7:2]; //connect 6 dip switches to alufn
+    alu.a=io_dip[1];          //connect 8 dip switches as a
+    alu.b=io_dip[0];          //connect 8 dip switches as b
     
-    io_led=io_dip;    //to be overwritten
-    // if cpu uses address 128
-    if (cpu.address == 128) {
-      if (cpu.write)
-        led_reg.d = cpu.dout; // update the LED value
-      if (cpu.read)
-        cpu.din = led_reg.q;  // let the CPU read the LED value
-    }
-    
-    
-    alu.alufn=io_dip[2][7:2];
-    alu.a=io_dip[1];
-    alu.b=io_dip[0];
-    
-    led = c{3b0, io_button};  // connect buttons to LEDs
-    led = led_reg.q;          // connect LEDs to led_reg    
+    led = c{3b0, io_button};  // connect buttons to LEDs    
     io_led[2] = alu.alu;      // connect the alu(result) to the LEDs
     
   }
