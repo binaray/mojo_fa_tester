@@ -3,8 +3,8 @@
   <files>
     <src top="true">mojo_top.luc</src>
     <ucf lib="true">io_shield.ucf</ucf>
-    <ucf>custom.ucf</ucf>
     <ucf lib="true">mojo.ucf</ucf>
+    <ucf>custom.ucf</ucf>
     <component>reset_conditioner.luc</component>
     <component>counter.luc</component>
   </files>

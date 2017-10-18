@@ -1,0 +1,2 @@
+https://embeddedmicro.com/tutorials/mojo/verilog-operators
+https://embeddedmicro.com/tutorials/lucid

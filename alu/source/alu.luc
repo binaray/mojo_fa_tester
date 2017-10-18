@@ -1,0 +1,66 @@
+module alu (
+    input clk,  // clock
+    input rst,  // reset
+    input alufn[6],
+    input a[8],
+    input b[8],
+    output alu[8]
+  ) {
+  
+  
+  always {
+    alu=2h00;
+    
+    case (alufn[5:4]){
+      2b00:
+        //8-bit adder
+        alu=8h00;
+        case (alufn[1:0]){
+          2b00:
+            alu=a+b;
+          2b01:
+            alu=a-b;
+          2b10:
+            alu=a*b;
+        }
+      
+      2b01:
+        //bit-wise boolean
+        case (alufn[3:0]){
+          4b1000:
+            alu=a&b;
+          4b1110:
+            alu=a|b;
+          4b0110:
+            alu=a^b;
+          4b1010:
+            alu=a;
+        }
+      
+      2b10:
+        //shifter        
+        case (alufn[1:0]){
+          2b00:
+            alu=a<<b;
+          2b01:
+            alu=a>>b;
+          2b11:
+            alu=$signed(a)>>>b;
+        }      
+      
+      2b11:
+        //comparator
+        case (alufn[2:1]){
+          2b01:
+            alu=8h00;
+            alu[0]=a==b;
+          2b10:
+            alu=8h00;
+            alu[0]=$signed(a)<$signed(b);     
+          2b11:
+            alu=8h00;
+            alu[0]=$signed(a)<=$signed(b);      
+        }    
+    }
+  }
+}
