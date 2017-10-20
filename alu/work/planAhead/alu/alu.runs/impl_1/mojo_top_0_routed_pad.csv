@@ -1,7 +1,7 @@
 #Release 14.7 - par P.20131013 (nt64)
 #Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-#Fri Oct 13 15:09:26 2017
+#Fri Oct 20 16:19:41 2017
 
 #
 ## NOTE: This file is designed to be imported into a spreadsheet program
@@ -19,14 +19,14 @@
 # 
 # -----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,
 Pin Number,Signal Name,Pin Usage,Pin Name,Direction,IO Standard,IO Bank Number,Drive (mA),Slew Rate,Termination,IOB Delay,Voltage,Constraint,IO Register,Signal Integrity,
-P1,,IOBS,IO_L83N_VREF_3,UNUSED,,3,,,,,,,,,
-P2,,IOBM,IO_L83P_3,UNUSED,,3,,,,,,,,,
+P1,io_seg[6],IOB,IO_L83N_VREF_3,OUTPUT,LVTTL,3,12,SLOW,,,,LOCATED,NO,NONE,
+P2,io_seg[4],IOB,IO_L83P_3,OUTPUT,LVTTL,3,12,SLOW,,,,LOCATED,NO,NONE,
 P3,,,GND,,,,,,,,,,,,
 P4,,,VCCO_3,,,3,,,,,3.30,,,,
-P5,,IOBS,IO_L52N_3,UNUSED,,3,,,,,,,,,
-P6,,IOBM,IO_L52P_3,UNUSED,,3,,,,,,,,,
+P5,io_seg[0],IOB,IO_L52N_3,OUTPUT,LVTTL,3,12,SLOW,,,,LOCATED,NO,NONE,
+P6,io_seg[5],IOB,IO_L52P_3,OUTPUT,LVTTL,3,12,SLOW,,,,LOCATED,NO,NONE,
 P7,,IOBS,IO_L51N_3,UNUSED,,3,,,,,,,,,
-P8,,IOBM,IO_L51P_3,UNUSED,,3,,,,,,,,,
+P8,io_seg[1],IOB,IO_L51P_3,OUTPUT,LVTTL,3,12,SLOW,,,,LOCATED,NO,NONE,
 P9,,IOBS,IO_L50N_3,UNUSED,,3,,,,,,,,,
 P10,,IOBM,IO_L50P_3,UNUSED,,3,,,,,,,,,
 P11,io_led[14],IOB,IO_L49N_3,OUTPUT,LVTTL,3,12,SLOW,,,,LOCATED,NO,NONE,
@@ -155,14 +155,14 @@ P133,led[1],IOB,IO_L34N_GCLK18_0,OUTPUT,LVTTL,0,12,SLOW,,,,LOCATED,NO,NONE,
 P134,led[0],IOB,IO_L34P_GCLK19_0,OUTPUT,LVTTL,0,12,SLOW,,,,LOCATED,NO,NONE,
 P135,,,VCCO_0,,,0,,,,,3.30,,,,
 P136,,,GND,,,,,,,,,,,,
-P137,io_button(0),IOB,IO_L4N_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
-P138,io_button(4),IOB,IO_L4P_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
-P139,io_button(2),IOB,IO_L3N_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
-P140,io_button(1),IOB,IO_L3P_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
-P141,,IOBS,IO_L2N_0,UNUSED,,0,,,,,,,,,
-P142,io_button(3),IOB,IO_L2P_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
-P143,,IOBS,IO_L1N_VREF_0,UNUSED,,0,,,,,,,,,
-P144,,IOBM,IO_L1P_HSWAPEN_0,UNUSED,,0,,,,,,,,,
+P137,io_button[0],IOB,IO_L4N_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
+P138,io_button[4],IOB,IO_L4P_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
+P139,io_button[2],IOB,IO_L3N_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
+P140,io_button[1],IOB,IO_L3P_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
+P141,io_seg[7],IOB,IO_L2N_0,OUTPUT,LVTTL,0,12,SLOW,,,,LOCATED,NO,NONE,
+P142,io_button[3],IOB,IO_L2P_0,INPUT,LVTTL,0,,,PULLDOWN,NONE,,LOCATED,NO,NONE,
+P143,io_seg[3],IOB,IO_L1N_VREF_0,OUTPUT,LVTTL,0,12,SLOW,,,,LOCATED,NO,NONE,
+P144,io_seg[2],IOB,IO_L1P_HSWAPEN_0,OUTPUT,LVTTL,0,12,SLOW,,,,LOCATED,NO,NONE,
 
 # -----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,-----,
 # 

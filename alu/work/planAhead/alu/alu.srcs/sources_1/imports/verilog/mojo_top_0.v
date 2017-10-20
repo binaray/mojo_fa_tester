@@ -18,6 +18,7 @@ module mojo_top_0 (
     output reg avr_rx,
     input avr_rx_busy,
     output reg [23:0] io_led,
+    output reg [7:0] io_seg,
     input [4:0] io_button,
     input [23:0] io_dip
   );
@@ -33,66 +34,36 @@ module mojo_top_0 (
     .in(M_reset_cond_in),
     .out(M_reset_cond_out)
   );
-  wire [1-1:0] M_cpu_write;
-  wire [1-1:0] M_cpu_read;
-  wire [8-1:0] M_cpu_address;
-  wire [8-1:0] M_cpu_dout;
-  reg [8-1:0] M_cpu_din;
-  cpu_2 cpu (
-    .clk(clk),
-    .rst(rst),
-    .din(M_cpu_din),
-    .write(M_cpu_write),
-    .read(M_cpu_read),
-    .address(M_cpu_address),
-    .dout(M_cpu_dout)
-  );
-  reg [7:0] M_led_reg_d, M_led_reg_q = 1'h0;
   wire [8-1:0] M_alu_alu;
+  wire [2-1:0] M_alu_extra;
   reg [6-1:0] M_alu_alufn;
   reg [8-1:0] M_alu_a;
   reg [8-1:0] M_alu_b;
-  alu_3 alu (
+  alu_2 alu (
     .clk(clk),
     .rst(rst),
     .alufn(M_alu_alufn),
     .a(M_alu_a),
     .b(M_alu_b),
-    .alu(M_alu_alu)
+    .alu(M_alu_alu),
+    .extra(M_alu_extra)
   );
   
   always @* begin
-    M_led_reg_d = M_led_reg_q;
-    
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
     spi_miso = 1'bz;
     spi_channel = 4'bzzzz;
     avr_rx = 1'bz;
-    M_cpu_din = 8'bxxxxxxxx;
-    io_led = io_dip;
-    if (M_cpu_address == 8'h80) begin
-      if (M_cpu_write) begin
-        M_led_reg_d = M_cpu_dout;
-      end
-      if (M_cpu_read) begin
-        M_cpu_din = M_led_reg_q;
-      end
-    end
     M_alu_alufn = io_dip[16+2+5-:6];
     M_alu_a = io_dip[8+7-:8];
     M_alu_b = io_dip[0+7-:8];
     led = {3'h0, io_button};
-    led = M_led_reg_q;
+    io_led = io_dip;
     io_led[16+7-:8] = M_alu_alu;
-  end
-  
-  always @(posedge clk) begin
-    if (rst == 1'b1) begin
-      M_led_reg_q <= 1'h0;
-    end else begin
-      M_led_reg_q <= M_led_reg_d;
+    io_seg = 8'h00;
+    if ({M_alu_extra[1+0-:1], M_alu_alu[7+0-:1]} == 2'h1 || {M_alu_extra[1+0-:1], M_alu_alu[7+0-:1]} == 2'h2) begin
+      io_seg = 8'hff;
     end
   end
-  
 endmodule

@@ -4,11 +4,12 @@ module alu (
     input alufn[6],
     input a[8],
     input b[8],
-    output alu[8]
+    output alu[8],
+    output extra[2]
   ) {
   
-  
   always {
+    extra=0;
     alu=2h00;
     
     case (alufn[5:4]){
@@ -20,9 +21,14 @@ module alu (
             alu=a+b;
           2b01:
             alu=a-b;
-          2b10:
-            alu=a*b;
         }
+        
+        //check over/under-flow
+        extra=$signed(a[7])+$signed(b[7]);
+        //Multiply
+        if (alufn[1:0]==2b10){
+            alu=a*b;            
+          }
       
       2b01:
         //bit-wise boolean
